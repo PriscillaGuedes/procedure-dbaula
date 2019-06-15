@@ -1,0 +1,83 @@
+DELIMITER $$
+CREATE PROCEDURE verificar_quantidade_alunos (OUT quantidade INT)
+BEGIN
+	SELECT COUNT(*) INTO quantidade FROM tb_aluno;
+END $$
+DELIMITER ;
+
+CALL verificar_quantidade_alunos(@total); -- processa
+SELECT @total; -- mostra o valor processado
+------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE selecionar_aluno (IN cpfaluno VARCHAR(15))
+BEGIN
+SELECT * FROM tb_aluno where cpf_aluno = cpfaluno;
+END $$
+DELIMITER ;
+
+CALL selecionar_aluno ("7516741418");
+-----------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE deletar_aluno (IN idd int(11), IN ida int(11))
+begin
+delete from tb_disciplina where id_d = idd;
+delete from tb_aluno where id_a = ida;
+END $$
+DELIMITER ;
+
+CALL deletar_aluno ('1','5');
+-------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE inserir_aluno (IN sid_a int(11), IN snome_aluno varchar (255),
+IN send_aluno varchar (500), IN sdt_nasc_aluno date, IN scid_nasc_aluno varchar(100),
+IN snacionalidade_aluno varchar(100), IN scpf_aluno varchar(15), IN srg_aluno int(15),
+IN scod_curso int(3),  IN scod_turma varchar(10))
+BEGIN
+insert into tb_aluno (id_a, nome_aluno, end_aluno, dt_nasc_aluno, 
+cid_nasc_aluno, nacionalidade_aluno, cpf_aluno, rg_aluno, cod_curso , cod_turma) 
+values (sid_a, snome_aluno, send_aluno, sdt_nasc_aluno, scid_nasc_aluno,
+snacionalidade_aluno,  scpf_aluno, srg_aluno, scod_curso, scod_turma);
+END $$
+DELIMITER ;
+
+CALL inserir_aluno (5,'Kelly Cristina', 'Rodovia P Acnhieta, SantAndrez', 05/05/1990, 
+'Zaira-SP', 'Brasileira', 4444444444444, 44444444, '004', 'ww' );
+--------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE inserir_curso ( IN snome_curso varchar (100), IN speriodo_curso varchar (10))
+BEGIN
+insert into tb_curso (nome_curso, periodo_curso) 
+values (snome_curso, speriodo_curso);
+END $$
+DELIMITER ;
+
+CALL inserir_curso ('disciplina teste', 'Xsem' );
+--------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE deletar_disciplina (IN idd int(11))
+begin
+delete from tb_disciplina where id_d = idd;
+END $$
+DELIMITER ;
+
+CALL deletar_disciplina ('10');
+--------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE inserir_disciplina ( IN scurso_associado varchar (100), IN sdescri_disciplina varchar(255), 
+IN speriodo_associado varchar(10), IN scarga_horaria varchar(5), IN sqtde_aulas int(6))
+BEGIN
+insert into tb_disciplina (curso_associado, descri_disciplina, periodo_associado, carga_horaria, qtde_aulas) 
+values ( scurso_associado, sdescri_disciplina, speriodo_associado, scarga_horaria, sqtde_aulas);
+END $$
+DELIMITER ;
+
+CALL inserir_disciplina ('administração','matemática I', '2sem', '36h', '24');
+--------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE selecionar_professor (IN codprofessor VARCHAR(500))
+BEGIN
+SELECT * FROM tb_professor where cod_professor = codprofessor;
+END $$
+DELIMITER ;
+
+CALL selecionar_professor (31);
